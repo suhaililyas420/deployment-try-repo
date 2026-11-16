@@ -1,11 +1,9 @@
 services:
   - type: web
-    name: render-postgresql-migrate-deploy-demo
-    env: node
-    # TASK: this build command generates the Prisma Client but never applies
-    # migrations. Add "&& npx prisma migrate deploy" so a fresh deploy creates
-    # the tables described by prisma/schema.prisma before the app starts.
-    buildCommand: npm ci && npx prisma generate
+    name: kalvium-516-postgresql
+    runtime: node
+    rootDir: lu65-postgresql-starter
+    buildCommand: npm ci && npx prisma generate && npx prisma migrate deploy
     startCommand: node server.js
     envVars:
       - key: DATABASE_URL
