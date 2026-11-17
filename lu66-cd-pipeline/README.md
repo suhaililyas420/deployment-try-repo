@@ -34,13 +34,14 @@ Open `.github/workflows/ci.yml` and add the `deploy` job below the `ci` job:
 
 ```yaml
   deploy:
-    runs-on: ubuntu-latest
-    needs: [ci]
+    runs-on: ubuntu-24.04
+    needs: ci
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Trigger Render deploy
         run: |
-          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+          curl --fail-with-body --show-error \
+            -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
 ```
 
 ### Step 5 — Enable branch protection
@@ -58,7 +59,7 @@ Open `.github/workflows/ci.yml` and add the `deploy` job below the `ci` job:
 3. Push the branch and open a pull request.
 4. Confirm CI passes on the PR.
 5. Merge the PR to `main`.
-6. Go to **Actions** tab — confirm both `ci` and `deploy` jobs show green.
+6. Go to Actions tab — confirm both `ci` and `deploy` jobs show green.
 7. Open Render and confirm a new deploy started.
 
 ### Step 7 — Take screenshots and submit
@@ -71,3 +72,5 @@ Take the two required screenshots described in the assignment and upload them.
 npm install
 npm run build
 ```
+
+<!-- CD pipeline test change -->
